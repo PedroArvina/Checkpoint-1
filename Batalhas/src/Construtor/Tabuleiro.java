@@ -17,6 +17,7 @@ public class Tabuleiro extends JFrame {
     private static final Color ATTACK_COLOR = Color.RED;
     private JPanel[][] quadrados;
     private Acessório acessorio;
+    private ControlesDeJogo controlesDeJogo;
     private Turno turno;
     private IA ia;
 
@@ -73,13 +74,20 @@ public class Tabuleiro extends JFrame {
         acessorio = new Acessório(new MudarTurnoListener());
         atualizarPainelAcessorio(); // Certifique-se de que `acessorio` está inicializado antes de chamar este método
 
+        // Criação do painel de controles
+        controlesDeJogo = new ControlesDeJogo();
+
         // Divisão do painel com JSplitPane
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, painelTabuleiro, acessorio);
-        splitPane.setResizeWeight(0.8); // Proporção de tamanho do tabuleiro/acessório
-        add(splitPane);
+        JSplitPane splitPaneEsquerda = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, controlesDeJogo, painelTabuleiro);
+        splitPaneEsquerda.setResizeWeight(0.2); // Ajuste conforme necessário para dar mais espaço ao painel de controle
+
+        JSplitPane splitPanePrincipal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneEsquerda, acessorio);
+        splitPanePrincipal.setResizeWeight(0.75); // Ajuste conforme necessário para equilibrar entre controles e acessórios
+
+        add(splitPanePrincipal);
 
         // Configuração da janela
-        setSize(800, 400); // Ajuste o tamanho conforme necessário
+        setSize(1200, 600); // Ajuste o tamanho conforme necessário para acomodar todos os componentes
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -111,12 +119,19 @@ public class Tabuleiro extends JFrame {
 
     // Inicia um novo turno e define qual personagem pode agir
     public void iniciarNovoTurno() {
-        personagemSelecionado = turno.proximoTurno();
+        while (true) {
+            personagemSelecionado = turno.proximoTurno();
 
-        // Se todos os personagens estiverem mortos, termine o jogo
-        if (personagemSelecionado == null) {
-            JOptionPane.showMessageDialog(this, "Todos os personagens estão mortos. Fim do jogo!", "Fim do Jogo", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            // Se todos os personagens estiverem mortos, termine o jogo
+            if (personagemSelecionado == null) {
+                JOptionPane.showMessageDialog(this, "Todos os personagens estão mortos. Fim do jogo!", "Fim do Jogo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Verifica se o personagem selecionado está morto
+            if (personagemSelecionado.getHp() > 0) {
+                break; // Se o personagem estiver vivo, saia do loop
+            }
         }
 
         simboloSelecionado = personagemSelecionado.getNome().substring(0, 1);
@@ -137,6 +152,7 @@ public class Tabuleiro extends JFrame {
             iniciarNovoTurno();
         }
     }
+
 
     // Reduz a vida do alvo e atualiza o painel
     public void reduzirVidaEAtacar(Point alvo, Personagem atacante) {
