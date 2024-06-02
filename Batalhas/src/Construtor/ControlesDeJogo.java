@@ -10,8 +10,10 @@ import java.util.Map;
 public class ControlesDeJogo extends JPanel {
 
     private Map<String, JButton> quadrados;
+    private Poderes poderes; // Instância da classe Poderes
 
     public ControlesDeJogo() {
+        poderes = new Poderes(); // Inicializa a instância de Poderes
         setLayout(new BorderLayout());
         quadrados = new HashMap<>();
 
@@ -83,7 +85,63 @@ public class ControlesDeJogo extends JPanel {
         public void actionPerformed(ActionEvent e) {
             String nomeQuadrado = e.getActionCommand();
             // Aqui você pode definir a ação que deseja executar quando o quadrado for clicado
-            System.out.println("Ação: " + nomeQuadrado);
+            acionarPoder(nomeQuadrado);
+        }
+    }
+
+    private void acionarPoder(String nomeQuadrado) {
+        switch (nomeQuadrado) {
+            // Poderes do Mago
+            case "quadradoMago1":
+                poderes.magoFeitico();
+                break;
+            case "quadradoMago2":
+                poderes.magoCura();
+                break;
+            case "quadradoMago3":
+                poderes.magoEscudo();
+                break;
+            case "quadradoMago4":
+                poderes.magoFogo();
+                break;
+            case "quadradoMago5":
+                poderes.magoGelo();
+                break;
+            // Poderes do Guerreiro
+            case "quadradoGuerreiro1":
+                poderes.guerreiroAtaque1();
+                break;
+            case "quadradoGuerreiro2":
+                poderes.guerreiroAtaque2();
+                break;
+            case "quadradoGuerreiro3":
+                poderes.guerreiroDefesa();
+                break;
+            case "quadradoGuerreiro4":
+                poderes.guerreiroEspecial1();
+                break;
+            case "quadradoGuerreiro5":
+                poderes.guerreiroEspecial2();
+                break;
+            // Poderes do Anão
+            case "quadradoAnao1":
+                poderes.anaoMartelo();
+                break;
+            case "quadradoAnao2":
+                poderes.anaoEscavacao();
+                break;
+            case "quadradoAnao3":
+                poderes.anaoConstruir();
+                break;
+            case "quadradoAnao4":
+                poderes.anaoExplodir();
+                break;
+            case "quadradoAnao5":
+                poderes.anaoDefender();
+                break;
+            default:
+                System.out.println("Ação não definida para " + nomeQuadrado);
+                break;
         }
     }
 
