@@ -269,7 +269,7 @@ public class Encontros {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Eaí bonitão, posso te fazer uma proposta nada descente?</div></html>", JLabel.CENTER);
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Eaí, posso te fazer uma proposta nada descente?</div></html>", JLabel.CENTER);
         frame.add(storyLabel, BorderLayout.NORTH);
 
         // Carregando e redimensionando a imagem do velho Joaquim
@@ -282,7 +282,7 @@ public class Encontros {
 
         JButton startButton = new JButton("Aceitar Desafio");
         JButton declineButton = new JButton("Recusar Desafio");
-        JButton surpriseButton = new JButton("Eu não estava pensando nisso...");
+        JButton surpriseButton = new JButton("Vamos!!! ");
         JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
         buttonPanel.add(startButton);
         buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
