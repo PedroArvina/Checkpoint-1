@@ -4,6 +4,7 @@ public class Poderes {
     // Poderes do Mago
     public void magoFeitico() {
         System.out.println("Mago usou Feitiço.");
+        
     }
 
     public void magoCura() {

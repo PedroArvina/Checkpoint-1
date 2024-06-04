@@ -46,6 +46,7 @@ public class Tabuleiro extends JFrame {
         // Inicializar sistema de turnos
         turno = new Turno(mago, guerreiro, anao, pug, lug, dug);
         ia = new IA(this);
+        Inventario inventario = new Inventario();
 
         personagemSelecionado = turno.proximoTurno(); // Garanta que sempre haja um personagem selecionado
 
@@ -76,6 +77,12 @@ public class Tabuleiro extends JFrame {
 
         // Criação do painel de controles
         controlesDeJogo = new ControlesDeJogo();
+        
+        JPanel painelPrincipal = new JPanel(new BorderLayout());
+        painelPrincipal.add(inventario, BorderLayout.CENTER);
+        painelPrincipal.add(inventario, BorderLayout.SOUTH); // Adiciona o inventário na parte inferior
+
+        add(painelPrincipal);
 
         // Divisão do painel com JSplitPane
         JSplitPane splitPaneEsquerda = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, controlesDeJogo, painelTabuleiro);

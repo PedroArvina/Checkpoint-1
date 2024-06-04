@@ -61,7 +61,7 @@ public class MapaVerde extends JFrame {
                 e -> updateScene(1),
                 e -> { 
                     Encontros.encontroComVelho(); 
-                    updateScene(2); // Isso mantém a cena atual ou pode mover para outra cena conforme o resultado do encontro.
+                    updateScene(2); 
                 },
                 e -> updateScene(3)
             }
@@ -124,7 +124,10 @@ public class MapaVerde extends JFrame {
             new String[]{"Voltar", "Falar com os Aldeões", "Avançar"},
             new ActionListener[]{
                 e -> updateScene(7),
-                e -> updateScene(7),
+                e -> { 
+                    Encontros.encontroComAldeoes(); 
+                    updateScene(8); 
+                },
                 e -> updateScene(9)
             }
         ));
@@ -145,7 +148,10 @@ public class MapaVerde extends JFrame {
             new String[]{"Voltar", "Avançar"},
             new ActionListener[]{
                 e -> updateScene(9),
-                e -> updateScene(11)
+                e -> { 
+                    Encontros.encontroComGuardas(); 
+                    updateScene(11); 
+                },
             }
         ));
         
@@ -165,6 +171,10 @@ public class MapaVerde extends JFrame {
             new String[]{"Voltar", "Falar com a dama", "Avançar"},
             new ActionListener[]{
                 e -> updateScene(11),
+                e -> { 
+                    Encontros.encontroComDama(); 
+                    updateScene(12); 
+                },
                 e -> updateScene(13)
             }
         ));
@@ -199,6 +209,10 @@ public class MapaVerde extends JFrame {
             new String[]{"Voltar", "Falar com o Rei"},
             new ActionListener[]{
                 e -> updateScene(14),
+                e -> { 
+                    Encontros.encontroComRei(); 
+                    updateScene(1); 
+                },
                 e -> System.exit(0)  // Encerra o jogo, colocar parea iniciar o mapa deserto
             }
         ));

@@ -15,17 +15,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 public class Encontros {
 
     private static JFrame frame;
-    private static JLabel questionLabel;
-    private static JButton yesButton, noButton, startButton;
+    private static JLabel questionLabel, imageLabel;
+    private static JButton yesButton, noButton, startButton, declineButton;
     private static List<Question> questions;
     private static int currentQuestionIndex = 0;
     private static int score = 0;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Encontros::encontroComVelho);
+    }
 
     public static void encontroComVelho() {
         prepareIntroGUI();
@@ -33,25 +40,34 @@ public class Encontros {
 
     private static void prepareIntroGUI() {
         frame = new JFrame("Desafio do Mago - Java");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400); // Ajustado para melhor acomodar a imagem e o texto
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // História e introdução
-        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Olá! Tudo bem? Meu nome é Joaquim, eu encontro alguem para passar uma grande arma, mas primeiro, ele deve se mostrar digno, voce deseja enfrentar meu teste?</div></html>", JLabel.CENTER);
-        frame.add(storyLabel, BorderLayout.CENTER);
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Olá! Tudo bem? Meu nome é Joaquim, eu encontro alguém para passar uma grande arma, mas primeiro, ele deve se mostrar digno, você deseja enfrentar meu teste?</div></html>", JLabel.CENTER);
+        frame.add(storyLabel, BorderLayout.NORTH);
+
+        // Carregando e redimensionando a imagem do velho Joaquim
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P1.png")); // Assegure que o caminho está correto
+        Image image = originalIcon.getImage(); // transform it 
+        Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        ImageIcon icon = new ImageIcon(newimg);  // transform it back
+        imageLabel = new JLabel(icon);
+        frame.add(imageLabel, BorderLayout.CENTER);
 
         startButton = new JButton("Aceitar Desafio");
-        startButton.addActionListener((ActionListener) new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initializeQuestions();
-                prepareChallengeGUI();
-            }
+        declineButton = new JButton("Recusar Desafio");
+
+        startButton.addActionListener(e -> {
+            initializeQuestions();
+            prepareChallengeGUI();
         });
+
+        declineButton.addActionListener(e -> frame.dispose());
 
         JPanel introPanel = new JPanel();
         introPanel.add(startButton);
+        introPanel.add(declineButton);
         frame.add(introPanel, BorderLayout.SOUTH);
 
         frame.setLocationRelativeTo(null);
@@ -61,6 +77,8 @@ public class Encontros {
     private static void prepareChallengeGUI() {
         frame.getContentPane().removeAll();
         frame.setLayout(new BorderLayout());
+
+        frame.add(imageLabel, BorderLayout.NORTH); // Reuse the image label
 
         questionLabel = new JLabel("", JLabel.CENTER);
         frame.add(questionLabel, BorderLayout.CENTER);
@@ -96,14 +114,18 @@ public class Encontros {
         }
 
         currentQuestionIndex++;
-        updateQuestion(currentQuestionIndex);
+        if (currentQuestionIndex < questions.size()) {
+            updateQuestion(currentQuestionIndex);
+        } else {
+            finishChallenge();
+        }
     }
 
     private static void finishChallenge() {
         frame.getContentPane().removeAll();
 
-        String resultMessage = score >= 8 ? "<html><div style='text-align: center;'>Você se motrou hábil, o maior tesouro que posso te dar é este conhecimento, se quiser fazer o teste novamente estarei por aqui :D</div></html>"
-                                         : "<html><div style='text-align: center;'>Você se mostou uma vergonha para a sua espécie, pelo seu nível, deveria cursar teatro na estácio, é mais adequado ao seu nível intelectual, você pode tentar novamente se quiser</div></html>";
+        String resultMessage = score >= 8 ? "<html><div style='text-align: center;'>Você se mostrou hábil, o maior tesouro que posso te dar é este conhecimento.</div></html>"
+                                         : "<html><div style='text-align: center;'>Você se mostrou uma vergonha para a sua espécie, pelo seu nível, deveria cursar teatro na Estácio, é mais adequado ao seu nível intelectual.</div></html>";
 
         JLabel resultLabel = new JLabel(resultMessage, JLabel.CENTER);
         frame.add(resultLabel, BorderLayout.CENTER);
@@ -142,10 +164,6 @@ public class Encontros {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(Encontros::encontroComVelho);
-    }
-
 
 
 
@@ -153,19 +171,184 @@ public class Encontros {
 
 
     public static void encontroComAldeoes() {
-        System.out.println("Os aldeões estão assustados com uma recente invasão de monstros.");
+    	frame = new JFrame("Desafio do Mago - Java");
+        frame.setSize(400, 400); // Ajustado para melhor acomodar a imagem e o texto
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Os soldados estão saqueando tudo em nome da Coroa, você não deveria entrar na cidade, muitos perigos estão por aí, todos guardam segredos</div></html>", JLabel.CENTER);
+        frame.add(storyLabel, BorderLayout.NORTH);
+
+        // Carregando e redimensionando a imagem do velho Joaquim
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P2.png")); // Assegure que o caminho está correto
+        Image image = originalIcon.getImage(); // transform it 
+        Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        ImageIcon icon = new ImageIcon(newimg);  // transform it back
+        imageLabel = new JLabel(icon);
+        frame.add(imageLabel, BorderLayout.CENTER);
+
+        startButton = new JButton("Aceitar Desafio");
+        declineButton = new JButton("Continuar");
+
+        startButton.addActionListener(e -> {
+            initializeQuestions();
+            prepareChallengeGUI();
+        });
+
+        declineButton.addActionListener(e -> frame.dispose());
+
+        JPanel introPanel = new JPanel();
+        
+        introPanel.add(declineButton);
+        frame.add(introPanel, BorderLayout.SOUTH);
+
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
+
+
+   
+    
+    private static JFrame frame232;
+    private static JLabel imageLabel232;
+    private static JButton showDocumentsButton232, explainPurposeButton232, proceedButton232;
+    private static JTextArea dialogueTextArea232;
 
     public static void encontroComGuardas() {
-        System.out.println("O Rei oferece uma recompensa por cada monstro derrotado.");
+    	JFrame frame = new JFrame("Desafio do Mago - Java");
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Bom dia, serei breve, você precisa vir conosco, precisamos de um homem no moinho, se voce recusar vamos matar você</div></html>", JLabel.CENTER);
+        frame.add(storyLabel, BorderLayout.NORTH);
+
+        // Carregando e redimensionando a imagem do velho Joaquim
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P5.png")); // Confirme o caminho
+        Image image = originalIcon.getImage();
+        Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(newimg);
+        JLabel imageLabel = new JLabel(icon);
+        frame.add(imageLabel, BorderLayout.CENTER);
+
+        JButton startButton = new JButton("Não, estou aqui só de passagem");
+        JButton declineButton = new JButton("Não, isso não é uma opção");
+        JButton surpriseButton = new JButton("Cai para dentro");
+        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        buttonPanel.add(startButton);
+        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        startButton.addActionListener(e -> {
+            storyLabel.setText("<html><div style='text-align: center;'>Como assim não!??</div></html>");
+            buttonPanel.removeAll(); // Remove todos os botões do painel
+            buttonPanel.add(surpriseButton); // Adiciona o novo botão
+            frame.validate(); // Valida o frame para atualizar a UI
+            frame.repaint(); // Repinta o frame para garantir a atualização
+        });
+
+        declineButton.addActionListener(e -> {
+        	storyLabel.setText("<html><div style='text-align: center;'>Como assim não!??</div></html>");
+            buttonPanel.removeAll(); // Remove todos os botões do painel
+            buttonPanel.add(surpriseButton); // Adiciona o novo botão
+            frame.validate(); // Valida o frame para atualizar a UI
+            frame.repaint(); // Repinta o frame para garantir a atualização
+        });
+         
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true); // Torna o frame visível
+
     }
 
+
+    
+
     public static void encontroComDama() {
-        System.out.println("Na taverna, você escuta rumores sobre um dragão nas montanhas.");
+        JFrame frame = new JFrame("Desafio do Mago - Java");
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Eaí bonitão, posso te fazer uma proposta nada descente?</div></html>", JLabel.CENTER);
+        frame.add(storyLabel, BorderLayout.NORTH);
+
+        // Carregando e redimensionando a imagem do velho Joaquim
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P4.png")); // Confirme o caminho
+        Image image = originalIcon.getImage();
+        Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(newimg);
+        JLabel imageLabel = new JLabel(icon);
+        frame.add(imageLabel, BorderLayout.CENTER);
+
+        JButton startButton = new JButton("Aceitar Desafio");
+        JButton declineButton = new JButton("Recusar Desafio");
+        JButton surpriseButton = new JButton("Eu não estava pensando nisso...");
+        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        buttonPanel.add(startButton);
+        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        startButton.addActionListener(e -> {
+            storyLabel.setText("<html><div style='text-align: center;'>Ótimo!!! Vamos Batalhar!</div></html>");
+            buttonPanel.removeAll(); // Remove todos os botões do painel
+            buttonPanel.add(surpriseButton); // Adiciona o novo botão
+            frame.validate(); // Valida o frame para atualizar a UI
+            frame.repaint(); // Repinta o frame para garantir a atualização
+        });
+
+        declineButton.addActionListener(e -> {
+            frame.dispose(); // Fecha a janela
+        });
+        frame.setLocationRelativeTo(null);
+
+        frame.setVisible(true); // Torna o frame visível
+
     }
 
     public static void encontroComRei() {
-        System.out.println("Um mercador oferece equipamentos raros em troca de gemas mágicas.");
+    	JFrame frame = new JFrame("Desafio do Mago - Java");
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Então Você é aquele que tanto falam?</div></html>", JLabel.CENTER);
+        frame.add(storyLabel, BorderLayout.NORTH);
+
+        // Carregando e redimensionando a imagem do velho Joaquim
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P8.png")); // Confirme o caminho
+        Image image = originalIcon.getImage();
+        Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(newimg);
+        JLabel imageLabel = new JLabel(icon);
+        frame.add(imageLabel, BorderLayout.CENTER);
+
+        JButton startButton = new JButton("Eu preciso de algo que você tem");
+        JButton declineButton = new JButton("Você sabe por que eu estou aqui");
+        JButton surpriseButton = new JButton("Não usaremos diálogos nesta discussão");
+        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        buttonPanel.add(startButton);
+        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        startButton.addActionListener(e -> {
+            storyLabel.setText("<html><div style='text-align: center;'>Vamos abrir um diálogo</div></html>");
+            buttonPanel.removeAll(); // Remove todos os botões do painel
+            buttonPanel.add(surpriseButton); // Adiciona o novo botão
+            frame.validate(); // Valida o frame para atualizar a UI
+            frame.repaint(); // Repinta o frame para garantir a atualização
+        });
+
+        declineButton.addActionListener(e -> {
+        	storyLabel.setText("<html><div style='text-align: center;'>Vamos abrir um diálogo</div></html>");
+            buttonPanel.removeAll(); // Remove todos os botões do painel
+            buttonPanel.add(surpriseButton); // Adiciona o novo botão
+            frame.validate(); // Valida o frame para atualizar a UI
+            frame.repaint(); // Repinta o frame para garantir a atualização
+        });
+         
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true); // Torna o frame visível
+
     }
 
     public static void batalhaContraLadrao() {

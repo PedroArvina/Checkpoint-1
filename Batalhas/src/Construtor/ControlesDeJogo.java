@@ -1,22 +1,49 @@
 package Construtor;
 
 import javax.swing.*;
+
+import Mob.Monstro;
+import Mob.Personagem;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import Construtor.Inventario;
 
 public class ControlesDeJogo extends JPanel {
-
+    
+	private static final int LARGURA = 15;
+    private static final int ALTURA = 8;
+    private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
+    private static final Color ATTACK_COLOR = Color.RED;
+    
+    private Acessório acessorio;
+    private ControlesDeJogo controlesDeJogo;
+    private Turno turno;
+    private IA ia;
+    private Personagem mago;
+    private Personagem guerreiro;
+    private Personagem anao;
+    private Monstro pug;
+    private Monstro lug;
+    private Monstro dug;
+    private Personagem personagemSelecionado;
+    private Point posicaoSelecionada;
+    private String simboloSelecionado;
+    private boolean podeMover = true;
     private Map<String, JButton> quadrados;
     private Poderes poderes; // Instância da classe Poderes
+    private Inventario inventario;
+    
 
     public ControlesDeJogo() {
         poderes = new Poderes(); // Inicializa a instância de Poderes
+        inventario = new Inventario(); // Inicializa a instância de Inventario
         setLayout(new BorderLayout());
         quadrados = new HashMap<>();
-
+        
         JLabel titulo = new JLabel("Painel de Controle", SwingConstants.CENTER);
         titulo.setFont(new Font("Arial", Font.BOLD, 16));
         add(titulo, BorderLayout.NORTH);
@@ -32,15 +59,18 @@ public class ControlesDeJogo extends JPanel {
         add(controlePanel, BorderLayout.CENTER);
 
         // Podemos adicionar mais botões ou elementos interativos aqui conforme necessário
-        JButton botaoExemplo = new JButton("Ação Exemplo");
+        JButton botaoInventario = new JButton("Abrir Inventário");
+        botaoInventario.addActionListener(e -> inventario.abrirInventario());
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.add(botaoExemplo);
+        buttonPanel.add(botaoInventario);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(200, 0)); // Define a largura preferida para o painel
-
-        // Definindo ações e textos iniciais para cada quadrado
+        // Inicializa ações e textos para outros elementos
         inicializarAcoesETextos();
+        inventario = new Inventario();
+
+
     }
 
     private JPanel criarPainelHeroi(String nomeHeroi, String linkImagem, String prefixoQuadrados) {
@@ -94,6 +124,7 @@ public class ControlesDeJogo extends JPanel {
             // Poderes do Mago
             case "quadradoMago1":
                 poderes.magoFeitico();
+                
                 break;
             case "quadradoMago2":
                 poderes.magoCura();
@@ -142,6 +173,19 @@ public class ControlesDeJogo extends JPanel {
             default:
                 System.out.println("Ação não definida para " + nomeQuadrado);
                 break;
+        }
+        atualizarPainelAcessorio();
+    }
+    
+    private void atualizarPainelAcessorio() {
+        if (personagemSelecionado != null) {
+            acessorio.atualizarStatusMago(mago.getHp());
+            acessorio.atualizarStatusGuerreiro(guerreiro.getHp());
+            acessorio.atualizarStatusAnao(anao.getHp());
+            acessorio.atualizarStatusPug(pug.getHp());
+            acessorio.atualizarStatusLug(lug.getHp());
+            acessorio.atualizarStatusDug(dug.getHp());
+            acessorio.atualizarTurnoAtual("Turno de " + personagemSelecionado.getNome());
         }
     }
 
