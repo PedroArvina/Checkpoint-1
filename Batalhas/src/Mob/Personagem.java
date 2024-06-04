@@ -31,12 +31,24 @@ public abstract class Personagem {
         return ataque;
     }
 
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
+
     public int getRange() {
         return range;
     }
 
+    public void setRange(int range) {
+        this.range = range;
+    }
+
     public int getAlcanceMovimento() {
         return alcanceMovimento;
+    }
+
+    public void setAlcanceMovimento(int alcanceMovimento) {
+        this.alcanceMovimento = alcanceMovimento;
     }
 
     public abstract void usarHabilidadeEspecial();

@@ -14,7 +14,7 @@ import Construtor.Inventario;
 
 public class ControlesDeJogo extends JPanel {
     
-	private static final int LARGURA = 15;
+    private static final int LARGURA = 15;
     private static final int ALTURA = 8;
     private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
     private static final Color ATTACK_COLOR = Color.RED;
@@ -36,11 +36,11 @@ public class ControlesDeJogo extends JPanel {
     private Map<String, JButton> quadrados;
     private Poderes poderes; // Instância da classe Poderes
     private Inventario inventario;
-    
 
-    public ControlesDeJogo() {
+    public ControlesDeJogo(Personagem personagemSelecionado) {
         poderes = new Poderes(); // Inicializa a instância de Poderes
         inventario = new Inventario(); // Inicializa a instância de Inventario
+        this.personagemSelecionado = personagemSelecionado; // Define o personagem selecionado
         setLayout(new BorderLayout());
         quadrados = new HashMap<>();
         
@@ -60,7 +60,7 @@ public class ControlesDeJogo extends JPanel {
 
         // Podemos adicionar mais botões ou elementos interativos aqui conforme necessário
         JButton botaoInventario = new JButton("Abrir Inventário");
-        botaoInventario.addActionListener(e -> inventario.abrirInventario());
+        botaoInventario.addActionListener(e -> inventario.abrirInventario(this.personagemSelecionado));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(botaoInventario);
@@ -68,9 +68,6 @@ public class ControlesDeJogo extends JPanel {
 
         // Inicializa ações e textos para outros elementos
         inicializarAcoesETextos();
-        inventario = new Inventario();
-
-
     }
 
     private JPanel criarPainelHeroi(String nomeHeroi, String linkImagem, String prefixoQuadrados) {

@@ -76,7 +76,7 @@ public class Tabuleiro extends JFrame {
         atualizarPainelAcessorio(); // Certifique-se de que `acessorio` está inicializado antes de chamar este método
 
         // Criação do painel de controles
-        controlesDeJogo = new ControlesDeJogo();
+        controlesDeJogo = new ControlesDeJogo(personagemSelecionado);
         
         JPanel painelPrincipal = new JPanel(new BorderLayout());
         painelPrincipal.add(inventario, BorderLayout.CENTER);
@@ -159,7 +159,6 @@ public class Tabuleiro extends JFrame {
             iniciarNovoTurno();
         }
     }
-
 
     // Reduz a vida do alvo e atualiza o painel
     public void reduzirVidaEAtacar(Point alvo, Personagem atacante) {
