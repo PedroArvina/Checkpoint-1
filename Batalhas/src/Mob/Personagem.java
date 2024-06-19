@@ -67,8 +67,10 @@ public abstract class Personagem {
         }
     }
 
-    // Método para calcular a distância entre personagens (placeholder)
-    protected int calcularDistancia(Personagem inimigo) {
-        return 1; // Simulação de cálculo de distância
+    public void adicionarVida(int vida) {
+        this.hp += vida;
+        System.out.println(this.nome + " agora tem " + this.hp + " de vida.");
     }
+
+    protected abstract int calcularDistancia(Personagem inimigo);
 }

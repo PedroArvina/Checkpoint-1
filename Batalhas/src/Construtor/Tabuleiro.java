@@ -76,7 +76,8 @@ public class Tabuleiro extends JFrame {
         atualizarPainelAcessorio(); // Certifique-se de que `acessorio` está inicializado antes de chamar este método
 
         // Criação do painel de controles
-        controlesDeJogo = new ControlesDeJogo(personagemSelecionado);
+        controlesDeJogo = new ControlesDeJogo(personagemSelecionado, acessorio);
+
         
         JPanel painelPrincipal = new JPanel(new BorderLayout());
         painelPrincipal.add(inventario, BorderLayout.CENTER);
