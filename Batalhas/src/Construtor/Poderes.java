@@ -81,6 +81,8 @@ public class Poderes {
 
     // Poderes do Guerreiro
     private void guerreiroAtaque1(Personagem personagem) {
+    	personagem.adicionarVida(20);
+        
         System.out.println("Guerreiro usou Ataque 1.");
     }
 

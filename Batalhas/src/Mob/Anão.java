@@ -9,4 +9,10 @@ public class Anão extends Personagem {
     public void usarHabilidadeEspecial() {
         System.out.println(nome + " usou sua habilidade especial: Fúria Anã.");
     }
+
+	@Override
+	protected int calcularDistancia(Personagem inimigo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

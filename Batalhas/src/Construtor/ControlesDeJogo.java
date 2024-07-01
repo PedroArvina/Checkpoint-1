@@ -12,11 +12,6 @@ import Construtor.Inventario;
 
 public class ControlesDeJogo extends JPanel {
 
-    private static final int LARGURA = 10;
-    private static final int ALTURA = 5;
-    private static final Color HIGHLIGHT_COLOR = Color.YELLOW;
-    private static final Color ATTACK_COLOR = Color.RED;
-
     private Acessório acessorio;
     private Turno turno;
     private IA ia;
@@ -30,6 +25,7 @@ public class ControlesDeJogo extends JPanel {
     private Map<String, JButton> quadrados;
     private Poderes poderes; 
     private Inventario inventario;
+    private int quantidadePocoesMago = 3;
 
     public ControlesDeJogo(Personagem personagemSelecionado, Acessório acessorio) {
         this.acessorio = acessorio;
@@ -45,8 +41,6 @@ public class ControlesDeJogo extends JPanel {
 
         JPanel controlePanel = new JPanel(new GridLayout(3, 1));
         controlePanel.add(criarPainelHeroi("Mago", "Fotos/P1", "quadradoMago"));
-        controlePanel.add(criarPainelHeroi("Guerreiro", "Fotos/Guerreiro.png", "quadradoGuerreiro"));
-        controlePanel.add(criarPainelHeroi("Anão", "Fotos/Anao.png", "quadradoAnao"));
         add(controlePanel, BorderLayout.CENTER);
 
         JButton botaoInventario = new JButton("Abrir Inventário");
@@ -70,7 +64,7 @@ public class ControlesDeJogo extends JPanel {
         painelHeroi.add(painelSuperior, BorderLayout.NORTH);
 
         JPanel painelInferior = new JPanel(new GridLayout(1, 1));
-        JButton botaoAcao = new JButton("Usar Poder");
+        JButton botaoAcao = new JButton("Usar Porção de Cura (Restantes: " + quantidadePocoesMago + ")");
         botaoAcao.setActionCommand(prefixoQuadrados + "1");
         botaoAcao.addActionListener(new QuadradoActionListener());
         quadrados.put(prefixoQuadrados + "1", botaoAcao);
@@ -83,14 +77,19 @@ public class ControlesDeJogo extends JPanel {
     private class QuadradoActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String nomeQuadrado = e.getActionCommand();
-            acionarPoder(nomeQuadrado);
+            if (quantidadePocoesMago > 0) {
+                quantidadePocoesMago--;
+                atualizarTextoBotao("quadradoMago1", "Usar Porção de Cura (Restantes: " + quantidadePocoesMago + ")");
+                acionarPoder(e.getActionCommand());
+            } else {
+                JOptionPane.showMessageDialog(null, "Não há mais poções de cura disponíveis para o Mago.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            atualizarPainelAcessorio();
         }
     }
 
     private void acionarPoder(String nomeQuadrado) {
         poderes.acionar(nomeQuadrado, personagemSelecionado);
-        atualizarPainelAcessorio();
     }
 
     private void atualizarPainelAcessorio() {
@@ -100,12 +99,10 @@ public class ControlesDeJogo extends JPanel {
     }
 
     private void inicializarAcoesETextos() {
-        setTextoQuadrado("quadradoMago1", "Porção de cura");
-        setTextoQuadrado("quadradoGuerreiro1", "Poção de cura");
-        setTextoQuadrado("quadradoAnao1", "Porção de cura");
+        // Inicialmente não necessário, pois o texto já é configurado na criação do botão.
     }
 
-    private void setTextoQuadrado(String nomeQuadrado, String texto) {
+    private void atualizarTextoBotao(String nomeQuadrado, String texto) {
         JButton quadrado = quadrados.get(nomeQuadrado);
         if (quadrado != null) {
             quadrado.setText(texto);

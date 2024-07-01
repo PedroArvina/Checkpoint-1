@@ -9,4 +9,10 @@ public class Dug extends Monstro {
     public void usarHabilidadeEspecial() {
         System.out.println(nome + " usou sua habilidade especial: Golpe Duplo.");
     }
+
+	@Override
+	protected int calcularDistancia(Personagem inimigo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

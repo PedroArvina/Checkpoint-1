@@ -14,4 +14,10 @@ public class Mago extends Personagem {
     public void curar(Personagem aliado) {
         aliado.setHp(aliado.getHp() + 5);
     }
+
+	@Override
+	protected int calcularDistancia(Personagem inimigo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
