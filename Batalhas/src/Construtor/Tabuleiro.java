@@ -124,15 +124,38 @@ public class Tabuleiro extends JFrame {
             acessorio.atualizarTurnoAtual("Turno de " + personagemSelecionado.getNome());
         }
     }
+    
+ // Verifica se todos os personagens estão mortos
+    private boolean todosPersonagensMortos() {
+        return mago.getHp() <= 0 && guerreiro.getHp() <= 0 && anao.getHp() <= 0;
+    }
 
-    // Inicia um novo turno e define qual personagem pode agir
+    // Verifica se todos os monstros estão mortos
+    private boolean todosMonstrosMortos() {
+        return pug.getHp() <= 0 && lug.getHp() <= 0 && dug.getHp() <= 0;
+    }
+
+
     public void iniciarNovoTurno() {
+        // Verifica se todos os personagens principais estão mortos (Game Over)
+        if (todosPersonagensMortos()) {
+            JOptionPane.showMessageDialog(this, "Todos os personagens estão mortos. Fim do jogo!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0); // Encerra a aplicação
+            return;
+        }
+
+        // Verifica se todos os monstros estão mortos (Vitória)
+        if (todosMonstrosMortos()) {
+            JOptionPane.showMessageDialog(null, "Você venceu! Aperte qualquer tecla para continuar.", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+            return; // Pode-se reiniciar o jogo aqui ou fechar, dependendo da lógica desejada
+        }
+
         while (true) {
             personagemSelecionado = turno.proximoTurno();
 
-            // Se todos os personagens estiverem mortos, termine o jogo
+            // Se o turno retornar null, significa que não há mais personagens para jogar (condição extra de segurança)
             if (personagemSelecionado == null) {
-                JOptionPane.showMessageDialog(this, "Todos os personagens estão mortos. Fim do jogo!", "Fim do Jogo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erro no sistema de turnos. Fim do jogo!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -160,6 +183,7 @@ public class Tabuleiro extends JFrame {
             iniciarNovoTurno();
         }
     }
+
 
     // Reduz a vida do alvo e atualiza o painel
     public void reduzirVidaEAtacar(Point alvo, Personagem atacante) {
