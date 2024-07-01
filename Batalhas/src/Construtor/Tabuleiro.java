@@ -137,14 +137,13 @@ public class Tabuleiro extends JFrame {
 
 
     public void iniciarNovoTurno() {
-        // Verifica se todos os personagens principais estão mortos (Game Over)
         if (todosPersonagensMortos()) {
             JOptionPane.showMessageDialog(this, "Todos os personagens estão mortos. Fim do jogo!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0); // Encerra a aplicação
+            fecharTodasJanelas(); // Fecha todas as janelas abertas
+            System.exit(0); // Encerra a aplicação após fechar as janelas
             return;
         }
 
-        // Verifica se todos os monstros estão mortos (Vitória)
         if (todosMonstrosMortos()) {
             JOptionPane.showMessageDialog(null, "Você venceu! Aperte qualquer tecla para continuar.", "Vitória", JOptionPane.INFORMATION_MESSAGE);
             return; // Pode-se reiniciar o jogo aqui ou fechar, dependendo da lógica desejada
@@ -153,15 +152,13 @@ public class Tabuleiro extends JFrame {
         while (true) {
             personagemSelecionado = turno.proximoTurno();
 
-            // Se o turno retornar null, significa que não há mais personagens para jogar (condição extra de segurança)
             if (personagemSelecionado == null) {
                 JOptionPane.showMessageDialog(this, "Erro no sistema de turnos. Fim do jogo!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Verifica se o personagem selecionado está morto
             if (personagemSelecionado.getHp() > 0) {
-                break; // Se o personagem estiver vivo, saia do loop
+                break;
             }
         }
 
@@ -177,12 +174,22 @@ public class Tabuleiro extends JFrame {
         atualizarPainelAcessorio();
         acessorio.ativarBotaoMudarTurno();
 
-        // Movimentar e atacar automaticamente para os monstros
         if (personagemSelecionado instanceof Monstro) {
             ia.movimentarOuAtacarIndividuo(simboloSelecionado);
             iniciarNovoTurno();
         }
     }
+
+    
+    private void fecharTodasJanelas() {
+        Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window instanceof JFrame || window instanceof JDialog) {
+                window.dispose(); // Fecha a janela
+            }
+        }
+    }
+
 
 
     // Reduz a vida do alvo e atualiza o painel
