@@ -39,7 +39,7 @@ public class MapaVerde extends JFrame {
             "src/Fotos/1.png",
             new String[]{"Iniciar Aventura"},
             new ActionListener[]{
-                e -> updateScene(1)
+                e -> updateScene(14)
             }
         ));
 

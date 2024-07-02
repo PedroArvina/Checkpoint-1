@@ -5,9 +5,11 @@ import Mob.Monstro;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 public class IA {
     private final Tabuleiro tabuleiro;
+    private boolean moverLateralmente = true; // Estado para controlar o zigue-zague
 
     public IA(Tabuleiro tabuleiro) {
         this.tabuleiro = tabuleiro;
@@ -47,12 +49,24 @@ public class IA {
             // Verifica se o quadrado não está ocupado
             if (!tabuleiro.estaOcupado(p)) {
                 int distancia = calcularDistancia(p, alvo);
-                if (distancia < menorDistancia) {
-                    menorDistancia = distancia;
-                    destinoMaisProximo = p;
+                
+                // Lógica para movimento em zigue-zague
+                if (moverLateralmente && Math.abs(p.x - origem.x) > 0) { // Movimento lateral preferencial
+                    if (distancia < menorDistancia) {
+                        menorDistancia = distancia;
+                        destinoMaisProximo = p;
+                    }
+                } else if (!moverLateralmente && Math.abs(p.y - origem.y) > 0) { // Movimento vertical preferencial
+                    if (distancia < menorDistancia) {
+                        menorDistancia = distancia;
+                        destinoMaisProximo = p;
+                    }
                 }
             }
         }
+
+        // Alternar entre movimento lateral e direto
+        moverLateralmente = !moverLateralmente;
 
         return destinoMaisProximo;
     }

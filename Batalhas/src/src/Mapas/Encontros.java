@@ -21,7 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import Construtor.Tabuleiro;
-
+import Construtor2.Tabuleiro;
+import Construtor1.Tabuleiro;
+import Construtor3.Tabuleiro;
 
 public class Encontros {
 
@@ -42,7 +44,7 @@ public class Encontros {
 
     private static void prepareIntroGUI() {
         frame = new JFrame("Desafio do Mago - Java");
-        frame.setSize(400, 400); // Ajustado para melhor acomodar a imagem e o texto
+        frame.setSize(600, 600); // Ajustado para melhor acomodar a imagem e o texto
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -269,14 +271,16 @@ public class Encontros {
 
     public static void encontroComDama() {
         JFrame frame = new JFrame("Desafio do Mago - Java");
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(600, 600);
+        frame.setUndecorated(true); // Remove a decoração da janela
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Impede que a janela seja fechada pelo usuário
         frame.setLayout(new BorderLayout());
+        frame.setResizable(false); // Impede que a janela seja redimensionada
+        frame.setLocationRelativeTo(null); // Centraliza a janela na tela
 
         JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Eaí bonitão, posso te fazer uma proposta nada descente?</div></html>", JLabel.CENTER);
         frame.add(storyLabel, BorderLayout.NORTH);
 
-        // Carregando e redimensionando a imagem do velho Joaquim
         ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P4.png")); // Confirme o caminho
         Image image = originalIcon.getImage();
         Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
@@ -287,39 +291,41 @@ public class Encontros {
         JButton startButton = new JButton("Aceitar Desafio");
         JButton declineButton = new JButton("Recusar Desafio");
         JButton surpriseButton = new JButton("Eu não estava pensando nisso...");
-        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
-        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        buttonPanel.add(declineButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         startButton.addActionListener(e -> {
             storyLabel.setText("<html><div style='text-align: center;'>Ótimo!!! Vamos Batalhar!</div></html>");
-            buttonPanel.removeAll(); // Remove todos os botões do painel
-            buttonPanel.add(surpriseButton); // Adiciona o novo botão
-            frame.validate(); // Valida o frame para atualizar a UI
-            frame.repaint(); // Repinta o frame para garantir a atualização
+            buttonPanel.removeAll();
+            buttonPanel.add(surpriseButton);
+            frame.validate();
+            frame.repaint();
         });
 
-        declineButton.addActionListener(e -> {
+        surpriseButton.addActionListener(e -> {
+            new Construtor2.Tabuleiro(); // Chama a função Tabuleiro quando o botão é clicado
             frame.dispose(); // Fecha a janela
         });
-        frame.setLocationRelativeTo(null);
 
         frame.setVisible(true); // Torna o frame visível
-
     }
+     // Importando a classe Tabuleiro de Construtor3
 
     public static void encontroComRei() {
-    	JFrame frame = new JFrame("Desafio do Mago - Java");
+        JFrame frame = new JFrame("Desafio do Mago - Java");
         frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setUndecorated(true); // Remove a decoração da janela
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Impede que a janela seja fechada pelo usuário
         frame.setLayout(new BorderLayout());
+        frame.setResizable(false); // Impede que a janela seja redimensionada
+        frame.setLocationRelativeTo(null); // Centraliza a janela na tela
 
         JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Então Você é aquele que tanto falam?</div></html>", JLabel.CENTER);
         frame.add(storyLabel, BorderLayout.NORTH);
 
-        // Carregando e redimensionando a imagem do velho Joaquim
-        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P8.png")); // Confirme o caminho
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P8.png"));
         Image image = originalIcon.getImage();
         Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(newimg);
@@ -329,30 +335,25 @@ public class Encontros {
         JButton startButton = new JButton("Eu preciso de algo que você tem");
         JButton declineButton = new JButton("Você sabe por que eu estou aqui");
         JButton surpriseButton = new JButton("Não usaremos diálogos nesta discussão");
-        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
-        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        buttonPanel.add(declineButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         startButton.addActionListener(e -> {
             storyLabel.setText("<html><div style='text-align: center;'>Vamos abrir um diálogo</div></html>");
-            buttonPanel.removeAll(); // Remove todos os botões do painel
-            buttonPanel.add(surpriseButton); // Adiciona o novo botão
-            frame.validate(); // Valida o frame para atualizar a UI
-            frame.repaint(); // Repinta o frame para garantir a atualização
+            buttonPanel.removeAll();
+            buttonPanel.add(surpriseButton);
+            frame.validate();
+            frame.repaint();
         });
 
-        declineButton.addActionListener(e -> {
-        	storyLabel.setText("<html><div style='text-align: center;'>Vamos abrir um diálogo</div></html>");
-            buttonPanel.removeAll(); // Remove todos os botões do painel
-            buttonPanel.add(surpriseButton); // Adiciona o novo botão
-            frame.validate(); // Valida o frame para atualizar a UI
-            frame.repaint(); // Repinta o frame para garantir a atualização
+        surpriseButton.addActionListener(e -> {
+            new Construtor3.Tabuleiro(); // Chama a função Tabuleiro de Construtor3
+            frame.dispose(); // Fecha a janela
         });
-         
-        frame.setLocationRelativeTo(null);
+
         frame.setVisible(true); // Torna o frame visível
-
     }
 
     public static void batalhaContraLadrao() {
