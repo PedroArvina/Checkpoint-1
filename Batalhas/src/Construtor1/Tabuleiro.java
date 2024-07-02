@@ -1,4 +1,4 @@
-package Construtor;
+package Construtor1;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import Mob.*;
+import Construtor1.Inventario1;
+
 
 public class Tabuleiro extends JFrame {
     private static final int LARGURA = 15;
@@ -20,6 +22,7 @@ public class Tabuleiro extends JFrame {
     private ControlesDeJogo controlesDeJogo;
     private Turno turno;
     private IA ia;
+    
 
     private Personagem mago;
     private Personagem guerreiro;
@@ -33,7 +36,7 @@ public class Tabuleiro extends JFrame {
     private boolean podeMover = true;
 
     public Tabuleiro() {
-        super("Tabuleiro de Batalha");
+        super("Tabuleiro Nível 1");
 
         // Inicializar personagens
         mago = new Mago();
@@ -46,7 +49,7 @@ public class Tabuleiro extends JFrame {
         // Inicializar sistema de turnos
         turno = new Turno(mago, guerreiro, anao, pug, lug, dug);
         ia = new IA(this);
-        Inventario inventario = new Inventario();
+        Inventario1 inventario1 = new Inventario1();
         
         setResizable(false); // Impede que a janela seja redimensionada
         setLocationRelativeTo(null); // Centraliza na tela
@@ -84,8 +87,8 @@ public class Tabuleiro extends JFrame {
 
         
         JPanel painelPrincipal = new JPanel(new BorderLayout());
-        painelPrincipal.add(inventario, BorderLayout.CENTER);
-        painelPrincipal.add(inventario, BorderLayout.SOUTH); // Adiciona o inventário na parte inferior
+        painelPrincipal.add(inventario1, BorderLayout.CENTER);
+        painelPrincipal.add(inventario1, BorderLayout.SOUTH); // Adiciona o inventário na parte inferior
 
         add(painelPrincipal);
 

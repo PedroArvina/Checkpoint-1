@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import Construtor.Tabuleiro;
+
 
 public class Encontros {
 
@@ -215,16 +217,19 @@ public class Encontros {
     private static JTextArea dialogueTextArea232;
 
     public static void encontroComGuardas() {
-    	JFrame frame = new JFrame("Desafio do Mago - Java");
+        JFrame frame = new JFrame("Desafio do Mago - Java");
         frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setUndecorated(true); // Remove a decoração da janela
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Impede que a janela seja fechada pelo usuário
         frame.setLayout(new BorderLayout());
+        frame.setResizable(false); // Impede que a janela seja redimensionada
+        frame.setLocationRelativeTo(null); // Centraliza a janela na tela
 
-        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Bom dia, serei breve, você precisa vir conosco, precisamos de um homem no moinho, se voce recusar vamos matar você</div></html>", JLabel.CENTER);
+        JLabel storyLabel = new JLabel("<html><div style='text-align: center;'>Bom dia, serei breve, você precisa vir conosco, precisamos de um homem no moinho, se você recusar vamos matar você</div></html>", JLabel.CENTER);
         frame.add(storyLabel, BorderLayout.NORTH);
 
         // Carregando e redimensionando a imagem do velho Joaquim
-        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P5.png")); // Confirme o caminho
+        ImageIcon originalIcon = new ImageIcon(Encontros.class.getResource("/Fotos/P5.png"));
         Image image = originalIcon.getImage();
         Image newimg = image.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(newimg);
@@ -234,31 +239,30 @@ public class Encontros {
         JButton startButton = new JButton("Não, estou aqui só de passagem");
         JButton declineButton = new JButton("Não, isso não é uma opção");
         JButton surpriseButton = new JButton("Cai para dentro");
-        JPanel buttonPanel = new JPanel(); // Criando um painel para os botões
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
-        buttonPanel.add(declineButton); // Corrigindo o nome do botão de recusa para declineButton
+        buttonPanel.add(declineButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         startButton.addActionListener(e -> {
             storyLabel.setText("<html><div style='text-align: center;'>Como assim não!??</div></html>");
-            buttonPanel.removeAll(); // Remove todos os botões do painel
-            buttonPanel.add(surpriseButton); // Adiciona o novo botão
-            frame.validate(); // Valida o frame para atualizar a UI
-            frame.repaint(); // Repinta o frame para garantir a atualização
+            buttonPanel.removeAll();
+            buttonPanel.add(surpriseButton);
+            frame.validate();
+            frame.repaint();
         });
 
-        declineButton.addActionListener(e -> {
-        	storyLabel.setText("<html><div style='text-align: center;'>Como assim não!??</div></html>");
-            buttonPanel.removeAll(); // Remove todos os botões do painel
-            buttonPanel.add(surpriseButton); // Adiciona o novo botão
-            frame.validate(); // Valida o frame para atualizar a UI
-            frame.repaint(); // Repinta o frame para garantir a atualização
+        // Adicionando o ouvinte de evento ao botão surpriseButton para ativar a função Tabuleiro
+        surpriseButton.addActionListener(e -> {
+            new Tabuleiro(); // Chama a função Tabuleiro quando o botão é clicado
+            frame.dispose(); // Fecha a janela do guarda
         });
-         
-        frame.setLocationRelativeTo(null);
+
         frame.setVisible(true); // Torna o frame visível
-
     }
+
+
+
 
 
     
